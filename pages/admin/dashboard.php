@@ -62,6 +62,9 @@ require_once '../includes/navBar.php';
           <a class="nav-link" href="users.php"><i class="bi bi-people"></i> Users</a>
           <a class="nav-link" href="orders.php"><i class="bi bi-bag-check"></i> Orders</a>
           <hr style="border-color:var(--border);margin:.4rem 0">
+          <a class="nav-link" href="blog.php"><i class="bi bi-journal-text"></i> Blog Posts</a>
+          <a class="nav-link" href="addPost.php"><i class="bi bi-pencil-square"></i> Add Post</a>
+          <hr style="border-color:var(--border);margin:.4rem 0">
           <a class="nav-link" href="../../index.php"><i class="bi bi-house"></i> View Site</a>
           <a class="nav-link" href="../auth/logout.php" style="color:var(--danger)!important">
             <i class="bi bi-box-arrow-right"></i> Logout

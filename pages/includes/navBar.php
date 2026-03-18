@@ -35,6 +35,9 @@ if (isLoggedIn()) {
         <li class="nav-item">
           <a class="nav-link" href="/e-commerce/pages/product/productList.php"><i class="bi bi-grid me-1"></i>Products</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/e-commerce/pages/blog/index.php"><i class="bi bi-pencil-square me-1"></i>Blog</a>
+        </li>
       </ul>
 
       <!-- Right links -->
