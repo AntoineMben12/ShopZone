@@ -131,7 +131,7 @@ require_once 'pages/includes/navBar.php';
           <div class="product-card">
             <div class="img-wrap">
               <?php if ($p['image'] && $p['image'] !== 'placeholder.jpg'): ?>
-                <img src="/assets/images/<?= htmlspecialchars($p['image']) ?>"
+                <img src="/e-commerce/Assets/images/<?= htmlspecialchars($p['image']) ?>"
                   alt="<?= htmlspecialchars($p['name']) ?>">
               <?php else: ?>
                 <div style="font-size:3.5rem;padding:1.5rem;color:var(--text-muted);">

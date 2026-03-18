@@ -111,7 +111,11 @@ require_once '../includes/navBar.php';
         <div class="col-6 col-md-4 col-lg-3">
           <div class="product-card">
             <div class="img-wrap">
-              <div style="font-size:3rem;padding:1.5rem;display:flex;align-items:center;justify-content:center;height:100%">🛒</div>
+              <?php if ($p['image'] && $p['image'] !== 'placeholder.jpg'): ?>
+                <img src="/e-commerce/Assets/images/<?= htmlspecialchars($p['image']) ?>" alt="<?= htmlspecialchars($p['name']) ?>">
+              <?php else: ?>
+                <div style="font-size:3rem;padding:1.5rem;display:flex;align-items:center;justify-content:center;height:100%">🛒</div>
+              <?php endif; ?>
             </div>
             <div class="card-body">
               <?php if ($onSale): ?>

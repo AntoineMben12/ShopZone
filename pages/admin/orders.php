@@ -2,6 +2,7 @@
 // admin/orders.php
 require_once '../../database/database.php';
 require_once '../includes/auth.php';
+require_once '../includes/mailer.php';
 requireAdmin('../index.php');
 
 $db = getDB();
@@ -13,8 +14,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_status'])) {
                  ? $_POST['status'] : 'pending';
     $payStatus = in_array($_POST['payment_status'], ['unpaid','paid','refunded'])
                  ? $_POST['payment_status'] : 'unpaid';
+    
+    // Check old status to see if it changed to delivered
+    $oldStatusSt = $db->prepare("SELECT status FROM orders WHERE id=?");
+    $oldStatusSt->execute([$orderId]);
+    $oldStatus = $oldStatusSt->fetchColumn();
+
     $db->prepare("UPDATE orders SET status=?, payment_status=? WHERE id=?")
        ->execute([$status, $payStatus, $orderId]);
+    
+    // Send delivery email if it just became delivered
+    if ($oldStatus !== 'delivered' && $status === 'delivered') {
+        $ordSt = $db->prepare("SELECT o.*, u.name AS user_name, u.email AS user_email FROM orders o JOIN users u ON u.id=o.user_id WHERE o.id=?");
+        $ordSt->execute([$orderId]);
+        $ord = $ordSt->fetch();
+        if ($ord) {
+            $itemsSt = $db->prepare("SELECT oi.*, p.name FROM order_items oi JOIN products p ON p.id=oi.product_id WHERE oi.order_id=?");
+            $itemsSt->execute([$orderId]);
+            $ordItems = $itemsSt->fetchAll();
+            $subtotal = 0;
+            foreach ($ordItems as $it) $subtotal += $it['price'] * $it['quantity'];
+            $shipping = $subtotal >= 100 ? 0 : 9.99;
+            sendDeliveryReceiptEmail(
+                $ord['user_email'],
+                $ord['user_name'],
+                $ord['id'],
+                $ordItems,
+                $subtotal,
+                $shipping,
+                $ord['total_price'],
+                $ord['shipping_address']
+            );
+        }
+    }
+
     setFlashMessage('success', "Order #$orderId updated.");
     header('Location: orders.php' . ($orderId ? "?id=$orderId" : '')); exit;
 }

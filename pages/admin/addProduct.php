@@ -180,7 +180,7 @@ require_once '../includes/navBar.php';
               <h5 class="mb-3">Product Image</h5>
               <?php if ($product['image'] && $product['image'] !== 'placeholder.jpg'): ?>
                 <div class="mb-3">
-                  <img src="../assets/images/<?= htmlspecialchars($product['image']) ?>"
+                  <img src="../../Assets/images/<?= htmlspecialchars($product['image']) ?>"
                        style="height:120px;border-radius:8px;border:1px solid var(--border)">
                   <p style="color:var(--text-muted);font-size:.78rem;margin-top:.4rem">Current image — upload new to replace.</p>
                 </div>

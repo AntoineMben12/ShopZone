@@ -43,8 +43,12 @@ require_once '../includes/navBar.php';
   <div class="row g-5">
     <!-- Image -->
     <div class="col-md-5">
-      <div class="card-dark" style="aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:6rem">
-        🛒
+      <div class="card-dark" style="aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:6rem; overflow:hidden">
+        <?php if ($p['image'] && $p['image'] !== 'placeholder.jpg'): ?>
+          <img src="../../Assets/images/<?= htmlspecialchars($p['image']) ?>" alt="<?= htmlspecialchars($p['name']) ?>" style="width:100%;height:100%;object-fit:cover;border-radius:var(--radius)">
+        <?php else: ?>
+          🛒
+        <?php endif; ?>
       </div>
     </div>
 
@@ -119,7 +123,13 @@ require_once '../includes/navBar.php';
         ?>
           <div class="col-6 col-md-3">
             <div class="product-card">
-              <div class="img-wrap"><div style="font-size:2.5rem;padding:1rem">🛒</div></div>
+              <div class="img-wrap">
+                <?php if ($r['image'] && $r['image'] !== 'placeholder.jpg'): ?>
+                  <img src="../../Assets/images/<?= htmlspecialchars($r['image']) ?>" alt="<?= htmlspecialchars($r['name']) ?>">
+                <?php else: ?>
+                  <div style="font-size:2.5rem;padding:1rem">🛒</div>
+                <?php endif; ?>
+              </div>
               <div class="card-body">
                 <h5 class="card-title" style="font-size:.92rem"><?= htmlspecialchars($r['name']) ?></h5>
                 <div class="price mb-2"><?= CURRENCY . number_format($rp, 2) ?></div>

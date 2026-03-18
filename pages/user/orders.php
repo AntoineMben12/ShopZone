@@ -96,22 +96,50 @@ require_once '../includes/navBar.php';
           </div>
         </div>
 
-        <div class="card-dark p-3">
-          <h5 class="mb-3">Order Items</h5>
-          <?php foreach ($detail['items'] as $item): ?>
-            <div class="d-flex align-items-center gap-3 py-2" style="border-bottom:1px solid var(--border)">
-              <div style="width:52px;height:52px;background:var(--bg3);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.5rem">
-                🛒
+        <div class="row g-4 mb-4">
+          <div class="col-lg-8">
+            <div class="card-dark p-3 h-100">
+              <h5 class="mb-3">Order Items</h5>
+              <?php foreach ($detail['items'] as $item): ?>
+                <div class="d-flex align-items-center gap-3 py-2" style="border-bottom:1px solid var(--border)">
+                  <div style="width:52px;height:52px;background:var(--bg3);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.5rem">
+                    🛒
+                  </div>
+                  <div class="flex-grow-1">
+                    <div style="font-weight:500"><?= htmlspecialchars($item['name']) ?></div>
+                    <div style="color:var(--text-muted);font-size:.82rem">Qty: <?= $item['quantity'] ?></div>
+                  </div>
+                  <div style="font-weight:600;color:var(--accent)"><?= CURRENCY . number_format($item['price'] * $item['quantity'], 2) ?></div>
+                </div>
+              <?php endforeach; ?>
+              <div class="text-end pt-2 pe-2">
+                <strong>Total: <?= CURRENCY . number_format($detail['total_price'], 2) ?></strong>
               </div>
-              <div class="flex-grow-1">
-                <div style="font-weight:500"><?= htmlspecialchars($item['name']) ?></div>
-                <div style="color:var(--text-muted);font-size:.82rem">Qty: <?= $item['quantity'] ?></div>
-              </div>
-              <div style="font-weight:600;color:var(--accent)"><?= CURRENCY . number_format($item['price'] * $item['quantity'], 2) ?></div>
             </div>
-          <?php endforeach; ?>
-          <div class="text-end pt-2 pe-2">
-            <strong>Total: <?= CURRENCY . number_format($detail['total_price'], 2) ?></strong>
+          </div>
+
+          <!-- Digital Receipt / QR Code Panel -->
+          <div class="col-lg-4">
+            <div class="card-dark p-4 text-center h-100 d-flex flex-column justify-content-center">
+              <?php 
+                $otp = strtoupper(substr(hash('sha256', "SHOPZONE_OTP_" . $detail['id']), 0, 6)); 
+                $orderUrl = "http://localhost/e-commerce/pages/user/orders.php?id=" . $detail['id'];
+                $qrData = "Order: {$orderUrl}\nOTP: {$otp}";
+                $qrUrl = "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=" . urlencode($qrData);
+              ?>
+              <h6 class="mb-3" style="color:var(--text-muted);text-transform:uppercase;letter-spacing:1px">Digital Receipt</h6>
+              
+              <div class="bg-white p-2 rounded mx-auto mb-3 shadow-sm" style="display:inline-block;">
+                <img src="<?= $qrUrl ?>" alt="QR Code" style="width:140px;height:140px;display:block;">
+              </div>
+
+              <div style="background:rgba(255,255,255,0.05); padding:10px; border-radius:8px; border:1px dashed var(--border);">
+                <div style="font-size:.8rem; color:var(--text-muted); margin-bottom:5px">Payment OTP</div>
+                <div style="font-size:1.8rem; font-weight:700; letter-spacing:4px; color:var(--accent)"><?= $otp ?></div>
+              </div>
+              
+              <p style="font-size:.8rem; color:var(--text-muted); margin-top:15px; margin-bottom:0">Scan to view receipt details or present code.</p>
+            </div>
           </div>
         </div>
 
