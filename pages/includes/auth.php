@@ -2,6 +2,7 @@
     if (session_status() == PHP_SESSION_NONE) {
         session_start();
     }
+    require_once __DIR__ . '/i18n.php';
 
     function isLoggedIn() {
         return isset($_SESSION['user_id'] ) && !empty($_SESSION['user_id']);

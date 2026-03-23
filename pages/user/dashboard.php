@@ -17,6 +17,9 @@ $totalSpent->execute([$uid]); $totalSpent = (float)$totalSpent->fetchColumn();
 $cartItems   = $db->prepare("SELECT COALESCE(SUM(quantity),0) FROM cart WHERE user_id=?");
 $cartItems->execute([$uid]); $cartItems = (int)$cartItems->fetchColumn();
 
+$postCount   = $db->prepare("SELECT COUNT(*) FROM posts WHERE user_id=?");
+$postCount->execute([$uid]); $postCount = (int)$postCount->fetchColumn();
+
 // Recent orders
 $orders = $db->prepare("SELECT * FROM orders WHERE user_id=? ORDER BY created_at DESC LIMIT 5");
 $orders->execute([$uid]); $orders = $orders->fetchAll();
@@ -47,6 +50,9 @@ require_once '../includes/navBar.php';
           <a class="nav-link" href="../cart/viewCart.php"><i class="bi bi-cart3"></i> Cart</a>
           <a class="nav-link" href="profile.php"><i class="bi bi-person"></i> Profile</a>
           <a class="nav-link" href="../product/productList.php"><i class="bi bi-grid"></i> Browse Products</a>
+          <hr style="border-color:var(--border);margin:.5rem 0">
+          <a class="nav-link" href="/e-commerce/pages/blog/index.php"><i class="bi bi-journal-text"></i> Blog</a>
+          <a class="nav-link" href="/e-commerce/pages/blog/createPost.php"><i class="bi bi-pencil-square"></i> Write a Post</a>
           <hr style="border-color:var(--border);margin:.5rem 0">
           <a class="nav-link" href="../auth/logout.php" style="color:var(--danger)!important">
             <i class="bi bi-box-arrow-right"></i> Logout
@@ -81,6 +87,13 @@ require_once '../includes/navBar.php';
             <div class="stat-icon">🛒</div>
             <div class="stat-value"><?= $cartItems ?></div>
             <div class="stat-label">Items in Cart</div>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="stat-card fade-up">
+            <div class="stat-icon">✍️</div>
+            <div class="stat-value"><?= $postCount ?></div>
+            <div class="stat-label">My Posts</div>
           </div>
         </div>
       </div>

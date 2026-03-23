@@ -87,7 +87,7 @@ require_once '../includes/navBar.php';
             <?php endif; ?>
           </p>
         </div>
-        <a href="add_product.php" class="btn btn-accent">
+        <a href="addProduct.php" class="btn btn-accent">
           <i class="bi bi-plus me-1"></i>New Product
         </a>
       </div>

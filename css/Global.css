@@ -1,11 +1,8 @@
-/* ============================================================
-   css/Global.css — ShopZone Global Styles
-   Aesthetic: Clean white & black — minimal luxury
-   ============================================================ */
+
 
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap');
 
-/* ── CSS Variables ─────────────────────────────────────────── */
+
 :root {
   --bg: #ffffff;
   --bg2: #fcfcfc;
@@ -28,7 +25,7 @@
   --transition: .2s cubic-bezier(.4, 0, .2, 1);
 }
 
-/* ── Reset / Base ──────────────────────────────────────────── */
+
 *,
 *::before,
 *::after {
@@ -79,7 +76,6 @@ h5 {
   font-weight: 600;
 }
 
-/* ── Scrollbar ─────────────────────────────────────────────── */
 ::-webkit-scrollbar {
   width: 6px;
 }
@@ -93,7 +89,6 @@ h5 {
   border-radius: 3px;
 }
 
-/* ── Navbar ────────────────────────────────────────────────── */
 .navbar {
   background: rgba(255, 255, 255, .96) !important;
   backdrop-filter: blur(16px);

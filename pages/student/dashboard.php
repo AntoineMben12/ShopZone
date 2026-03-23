@@ -21,6 +21,9 @@ $totalSaved->execute([$uid]); $totalSaved = (float)$totalSaved->fetchColumn();
 // Featured books/discounted items
 $deals = $db->query("SELECT * FROM products WHERE sale_price IS NOT NULL AND stock > 0 ORDER BY (price - sale_price) DESC LIMIT 4")->fetchAll();
 
+$postCount = $db->prepare("SELECT COUNT(*) FROM posts WHERE user_id=?");
+$postCount->execute([$uid]); $postCount = (int)$postCount->fetchColumn();
+
 $pageTitle = 'Student Dashboard';
 $depth = '../';
 require_once '../includes/header.php';
@@ -45,6 +48,9 @@ require_once '../includes/navBar.php';
           <a class="nav-link" href="../cart/viewCart.php"><i class="bi bi-cart3"></i> Cart</a>
           <a class="nav-link" href="../user/profile.php"><i class="bi bi-person"></i> Profile</a>
           <a class="nav-link" href="../product/productList.php"><i class="bi bi-grid"></i> Browse</a>
+          <hr style="border-color:var(--border);margin:.5rem 0">
+          <a class="nav-link" href="/e-commerce/pages/blog/index.php"><i class="bi bi-journal-text"></i> Blog</a>
+          <a class="nav-link" href="/e-commerce/pages/blog/createPost.php"><i class="bi bi-pencil-square"></i> Write a Post</a>
           <hr style="border-color:var(--border);margin:.5rem 0">
           <a class="nav-link" href="../auth/logout.php" style="color:var(--danger)!important">
             <i class="bi bi-box-arrow-right"></i> Logout
@@ -87,6 +93,13 @@ require_once '../includes/navBar.php';
             <div class="stat-icon">⭐</div>
             <div class="stat-value">Active</div>
             <div class="stat-label">Student Status</div>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="stat-card">
+            <div class="stat-icon">✍️</div>
+            <div class="stat-value"><?= $postCount ?></div>
+            <div class="stat-label">My Posts</div>
           </div>
         </div>
       </div>

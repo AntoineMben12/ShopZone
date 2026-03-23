@@ -1,20 +1,12 @@
--- ============================================================
---  Blog & Advertisement Platform — Database Migration
---  Run once against: ecommerce_db
--- ============================================================
+
 
 SET FOREIGN_KEY_CHECKS = 0;
 
--- ------------------------------------------------------------
--- 1. Add premium flag to existing users table
--- ------------------------------------------------------------
 ALTER TABLE users
     ADD COLUMN IF NOT EXISTS is_premium TINYINT(1) NOT NULL DEFAULT 0
         COMMENT '1 = paid advertiser who can attach product ads to posts';
 
--- ------------------------------------------------------------
--- 2. Blog Posts
--- ------------------------------------------------------------
+
 CREATE TABLE IF NOT EXISTS posts (
     id          INT(11)          NOT NULL AUTO_INCREMENT,
     user_id     INT(11)          NOT NULL,
@@ -33,9 +25,6 @@ CREATE TABLE IF NOT EXISTS posts (
     CONSTRAINT fk_posts_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- ------------------------------------------------------------
--- 3. Comments (supports 1-level thread replies via parent_id)
--- ------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS comments (
     id          INT(11)          NOT NULL AUTO_INCREMENT,
     post_id     INT(11)          NOT NULL,
@@ -52,9 +41,7 @@ CREATE TABLE IF NOT EXISTS comments (
     CONSTRAINT fk_comments_parent FOREIGN KEY (parent_id) REFERENCES comments(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- ------------------------------------------------------------
--- 4. Likes  (many-to-many: users ↔ posts)
--- ------------------------------------------------------------
+
 CREATE TABLE IF NOT EXISTS likes (
     user_id     INT(11) NOT NULL,
     post_id     INT(11) NOT NULL,
@@ -65,9 +52,7 @@ CREATE TABLE IF NOT EXISTS likes (
     CONSTRAINT fk_likes_post FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- ------------------------------------------------------------
--- 5. Post–Product Advertisement Mapping
--- ------------------------------------------------------------
+
 CREATE TABLE IF NOT EXISTS post_products (
     post_id    INT(11) NOT NULL,
     product_id INT(11) NOT NULL,
@@ -79,9 +64,3 @@ CREATE TABLE IF NOT EXISTS post_products (
 
 SET FOREIGN_KEY_CHECKS = 1;
 
--- ============================================================
--- Quick sanity-check: should return 4 rows
--- ============================================================
--- SELECT table_name FROM information_schema.tables
--- WHERE table_schema = 'ecommerce_db'
---   AND table_name IN ('posts','comments','likes','post_products');

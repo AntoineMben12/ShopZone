@@ -131,6 +131,11 @@ require_once '../includes/navBar.php';
   <div class="container">
     <h1>✏️ ShopZone Blog</h1>
     <p>Discover stories, product highlights, and expert guides from our community.</p>
+    <?php if (isLoggedIn()): ?>
+      <a href="/e-commerce/pages/blog/createPost.php" class="btn btn-accent mt-3">
+        <i class="bi bi-pencil-square me-1"></i>Write a Post
+      </a>
+    <?php endif; ?>
   </div>
 </div>
 
@@ -147,8 +152,8 @@ require_once '../includes/navBar.php';
       <i class="bi bi-journal-x"></i>
       <h4>No posts yet.</h4>
       <p>Check back soon — great content is on the way!</p>
-      <?php if (isAdmin()): ?>
-        <a href="/e-commerce/pages/admin/addPost.php" class="btn btn-accent mt-2">
+      <?php if (isLoggedIn()): ?>
+        <a href="/e-commerce/pages/blog/createPost.php" class="btn btn-accent mt-2">
           <i class="bi bi-pencil-square me-1"></i>Write the First Post
         </a>
       <?php endif; ?>

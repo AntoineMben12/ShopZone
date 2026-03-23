@@ -30,18 +30,37 @@ if (isLoggedIn()) {
       <!-- Left links -->
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link" href="/e-commerce/index.php"><i class="bi bi-house me-1"></i>Home</a>
+          <a class="nav-link" href="/e-commerce/index.php"><i class="bi bi-house me-1"></i><?= __('nav_home') ?></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/e-commerce/pages/product/productList.php"><i class="bi bi-grid me-1"></i>Products</a>
+          <a class="nav-link" href="/e-commerce/pages/product/productList.php"><i class="bi bi-grid me-1"></i><?= __('nav_products') ?></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/e-commerce/pages/blog/index.php"><i class="bi bi-pencil-square me-1"></i>Blog</a>
+          <a class="nav-link" href="/e-commerce/pages/blog/index.php"><i class="bi bi-pencil-square me-1"></i><?= __('nav_blog') ?></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/e-commerce/pages/documentation.php"><i class="bi bi-book me-1"></i><?= __('nav_docs') ?></a>
         </li>
       </ul>
 
       <!-- Right links -->
       <ul class="navbar-nav align-items-center gap-1">
+        <!-- Language Dropdown -->
+        <li class="nav-item dropdown me-2">
+          <a class="nav-link dropdown-toggle d-flex align-items-center gap-1" href="#" data-bs-toggle="dropdown">
+            <?php
+              $currLang = $_SESSION['lang'] ?? 'en';
+              $flag = ['en'=>'🇬🇧', 'fr'=>'🇫🇷', 'es'=>'🇪🇸'][$currLang] ?? '🇬🇧';
+              echo "<span>$flag</span> " . strtoupper($currLang);
+            ?>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end" style="min-width:120px; background:var(--bg2); border:1px solid var(--border); border-radius:var(--radius);">
+            <li><a class="dropdown-item" href="/e-commerce/pages/includes/lang/setLanguage.php?lang=en">🇬🇧 EN</a></li>
+            <li><a class="dropdown-item" href="/e-commerce/pages/includes/lang/setLanguage.php?lang=fr">🇫🇷 FR</a></li>
+            <li><a class="dropdown-item" href="/e-commerce/pages/includes/lang/setLanguage.php?lang=es">🇪🇸 ES</a></li>
+          </ul>
+        </li>
+
         <?php if (isLoggedIn()): ?>
 
           <!-- Cart icon with badge -->
@@ -78,19 +97,25 @@ if (isLoggedIn()) {
               <li>
                 <a class="dropdown-item" href="<?= $dashLink ?>"
                   style="color:var(--text);font-size:.9rem">
-                  <i class="bi bi-speedometer2 me-2"></i>Dashboard
+                  <i class="bi bi-speedometer2 me-2"></i><?= __('nav_dashboard') ?>
                 </a>
               </li>
               <li>
                 <a class="dropdown-item" href="/e-commerce/pages/user/profile.php"
                   style="color:var(--text);font-size:.9rem">
-                  <i class="bi bi-person me-2"></i>Profile
+                  <i class="bi bi-person me-2"></i><?= __('nav_profile') ?>
                 </a>
               </li>
               <li>
                 <a class="dropdown-item" href="/e-commerce/pages/user/orders.php"
                   style="color:var(--text);font-size:.9rem">
-                  <i class="bi bi-bag me-2"></i>My Orders
+                  <i class="bi bi-bag me-2"></i><?= __('nav_orders') ?>
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="/e-commerce/pages/blog/createPost.php"
+                  style="color:var(--text);font-size:.9rem">
+                  <i class="bi bi-pencil-square me-2"></i><?= __('nav_write_post') ?>
                 </a>
               </li>
               <li>
@@ -99,7 +124,7 @@ if (isLoggedIn()) {
               <li>
                 <a class="dropdown-item" href="/e-commerce/pages/auth/logout.php"
                   style="color:var(--danger);font-size:.9rem">
-                  <i class="bi bi-box-arrow-right me-2"></i>Logout
+                  <i class="bi bi-box-arrow-right me-2"></i><?= __('nav_logout') ?>
                 </a>
               </li>
             </ul>
@@ -108,10 +133,10 @@ if (isLoggedIn()) {
         <?php else: ?>
 
           <li class="nav-item">
-            <a class="btn btn-ghost btn-sm" href="/e-commerce/pages/auth/login.php">Log In</a>
+            <a class="btn btn-ghost btn-sm" href="/e-commerce/pages/auth/login.php"><?= __('nav_login') ?></a>
           </li>
           <li class="nav-item">
-            <a class="btn btn-accent btn-sm ms-1" href="/e-commerce/pages/auth/signup.php">Sign Up</a>
+            <a class="btn btn-accent btn-sm ms-1" href="/e-commerce/pages/auth/signup.php"><?= __('nav_signup') ?></a>
           </li>
 
         <?php endif; ?>
